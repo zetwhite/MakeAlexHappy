@@ -8,7 +8,7 @@ import Tokens
 %error { parseError }
 
 %token 
-  int { TokenInt $$ }
+  int {T_Int $$ }
 %%
 
 aLst :          { [] }
@@ -19,10 +19,10 @@ Atom : int      { Int $1 }
 parseError :: [Token] -> a 
 parseError _ = error "Parse error"
 
-data Atom 
+data ParserRule 
   = Int Int 
   deriving (Eq)
 
-instance Show Atom where  -- Atom in Show class 
+instance Show ParserRule where  -- Atom in Show class 
   show (Int n) = "Int ("++ show (n+1) ++ ")"
 }

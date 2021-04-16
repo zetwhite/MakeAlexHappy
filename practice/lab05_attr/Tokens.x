@@ -8,10 +8,10 @@ $digit = [0-9]
 
 tokens :- 
   $white+ ; 
-  $digit+  {\s -> TokenInt (read s :: Int)}
+  $digit+  {\s -> T_Int (read s :: Int)}
 
 {
 data Token 
-  = TokenInt Int 
+  = T_Int Int 
   deriving (Eq)
 }

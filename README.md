@@ -7,3 +7,6 @@ making LISP Interpreter (..?compiler) using Haskell(Alex and Happy)
 
 * /practice/lab* : in class Lab. to Learn How to use Haskell, Alex and Happy. 
 
+## reference 
+* Alex User Guide : https://www.haskell.org/alex/doc/html/index.html 
+* Happy User Guide : https://www.haskell.org/happy/doc/html/index.html 
