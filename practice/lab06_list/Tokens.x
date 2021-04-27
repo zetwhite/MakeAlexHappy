@@ -8,11 +8,12 @@ $digit = [0-9]
 $alpha = [a-zA-Z]
 
 tokens :-  
+  $white+				;
+  [\n]+         ; 
   $digit+        {\s -> TokenInt (read s :: Int)}
   $alpha+        {\s -> TokenId (s)}
   \(             {\s -> TokenLP }
   \)             {\s -> TokenRP }
-  $white+				;
 
 {
 data Token

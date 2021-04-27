@@ -452,21 +452,16 @@ alex_tab_size = 8
 alex_base :: Array Int Int
 alex_base = listArray (0 :: Int, 5)
   [ -8
-  , -42
+  , -3
+  , -37
   , 50
   , 0
   , 0
-  , 7
   ]
 
 alex_table :: Array Int Int
 alex_table = listArray (0 :: Int, 305)
   [ 0
-  , 5
-  , 5
-  , 5
-  , 5
-  , 5
   , 1
   , 1
   , 1
@@ -477,15 +472,45 @@ alex_table = listArray (0 :: Int, 305)
   , 1
   , 1
   , 1
-  , 5
-  , 5
-  , 5
-  , 5
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 0
+  , 0
+  , 0
+  , 1
+  , 0
+  , 0
+  , 0
+  , 0
+  , 1
+  , 0
+  , 0
+  , 4
   , 5
   , 0
   , 0
   , 0
-  , 5
+  , 0
+  , 0
+  , 0
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
+  , 2
   , 0
   , 0
   , 0
@@ -494,146 +519,121 @@ alex_table = listArray (0 :: Int, 305)
   , 0
   , 0
   , 3
-  , 4
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 5
-  , 1
-  , 1
-  , 1
-  , 1
-  , 1
-  , 1
-  , 1
-  , 1
-  , 1
-  , 1
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
   , 0
   , 0
   , 0
   , 0
   , 0
   , 0
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
   , 0
   , 0
   , 0
   , 0
   , 0
   , 0
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
-  , 2
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
+  , 3
   , 0
   , 0
   , 0
@@ -777,6 +777,11 @@ alex_check = listArray (0 :: Int, 305)
   , 11
   , 12
   , 13
+  , 9
+  , 10
+  , 11
+  , 12
+  , 13
   , 48
   , 49
   , 50
@@ -787,11 +792,6 @@ alex_check = listArray (0 :: Int, 305)
   , 55
   , 56
   , 57
-  , 9
-  , 10
-  , 11
-  , 12
-  , 13
   , -1
   , -1
   , -1
@@ -800,7 +800,7 @@ alex_check = listArray (0 :: Int, 305)
   , -1
   , -1
   , -1
-  , -1
+  , 32
   , -1
   , -1
   , 40
@@ -810,7 +810,7 @@ alex_check = listArray (0 :: Int, 305)
   , -1
   , -1
   , -1
-  , 32
+  , -1
   , 48
   , 49
   , 50
@@ -1091,21 +1091,21 @@ alex_deflt = listArray (0 :: Int, 5)
 
 alex_accept = listArray (0 :: Int, 5)
   [ AlexAccNone
+  , AlexAccSkip
   , AlexAcc 3
   , AlexAcc 2
   , AlexAcc 1
   , AlexAcc 0
-  , AlexAccSkip
   ]
 
 alex_actions = array (0 :: Int, 4)
-  [ (3,alex_action_0)
-  , (2,alex_action_1)
-  , (1,alex_action_2)
-  , (0,alex_action_3)
+  [ (3,alex_action_2)
+  , (2,alex_action_3)
+  , (1,alex_action_4)
+  , (0,alex_action_5)
   ]
 
-{-# LINE 17 "Tokens.x" #-}
+{-# LINE 18 "Tokens.x" #-}
 
 data Token
     = TokenInt Int
@@ -1114,10 +1114,10 @@ data Token
     | TokenRP
   deriving (Eq, Show)   
 
-alex_action_0 = \s -> TokenInt (read s :: Int)
-alex_action_1 = \s -> TokenId (s)
-alex_action_2 = \s -> TokenLP 
-alex_action_3 = \s -> TokenRP 
+alex_action_2 = \s -> TokenInt (read s :: Int)
+alex_action_3 = \s -> TokenId (s)
+alex_action_4 = \s -> TokenLP 
+alex_action_5 = \s -> TokenRP 
 {-# LINE 1 "templates/GenericTemplate.hs" #-}
 -- -----------------------------------------------------------------------------
 -- ALEX TEMPLATE
