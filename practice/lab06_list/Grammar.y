@@ -8,33 +8,36 @@ import Tokens
 %error { parseError }
 
 %token
-int { TokenInt $$ }
-id { TokenId $$ }
-’(’ { TokenLP }
-’)’ { TokenRP }
+int           { TokenInt $$ }
+id            { TokenId $$ }
+lp            { TokenLP }
+rp            { TokenRP }
 %%
 
-List: ’(’ sLst ’)’ { $2 }
-sLst: { Atom AtomNil }
-  | Atom sLst { Pair (Atom $1) $2 }
-Atom: int { AtomInt $1 }
-  | id { AtomId $1 }
+List:   lp sLst rp     { $2. }
+sLst:   Atom sLst      { Pair (Atom $1) $2  }
+  |                    { Atom AtomNil 0 }
+Atom: int              { AtomInt $1 }
+  | id                 { AtomId $1 }
+
 
 {
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
--- parseList :: [Token] -> Sexp
-
 data Sexp
-  = Atom Atom
-  | Pair Sexp Sexp
+  = Atom Atom Int
+  | Pair Sexp Sexp Int 
   deriving (Eq, Show)
 
 data Atom
-  = AtomInt Integer
+  = AtomInt Int
   | AtomId String
   | AtomSym Char
-  | AtomNil
+  | AtomNil Int
   deriving (Eq, Show)
+
+increaseDepth :: Sexp -> Sexp 
+increaseDepth ( Atom _ n ) = ( Atom _ n)
+increaseDepth ( Pa)
 }
