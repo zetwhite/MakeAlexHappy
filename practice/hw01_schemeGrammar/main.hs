@@ -1,3 +1,4 @@
+-- 
 module Main where 
 import Data.Typeable 
 import Grammar 
@@ -10,7 +11,7 @@ myREPL::IO()
 myREPL = do
   putStr "> "
   l <- tryIOError getLine
-  case l of
+  case l o
     Left e ->
       if isEOFError e
          then putStrLn "Bye!     "
