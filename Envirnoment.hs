@@ -35,7 +35,8 @@ runProgram (Def' x) store = LineResult store' $ Good Empty
 runDef :: Definition -> Store -> Store 
 runDef (Bind' id xexpr) store = update id atom store
     where atom = SymAtom $ extractAtom (runSExp xexpr store) 
-
+--runDef (Bind' id lam) store = update id newstore store
+--    where newstore = SymAtom $ extractAtom (runSExp xexpr store) 
 
 runSExp :: SExpression -> Store -> ExpResult 
 -- runSExp (Atom' (Lambda' x y)) store = Good $ SymStore store' 

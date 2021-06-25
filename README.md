@@ -1,12 +1,28 @@
-# MakeAlexHappy
-making LISP Interpreter (..?compiler) using Haskell(Alex and Happy) 
 
-<img src="https://github.com/zetwhite/MakeAlexHappy/blob/master/thumbNail.jpg" width="500">
+# MINI Scheme Interperter 
+This is a `Mini scheme Interpreter` made with Haskell (Alex as lexical analyser, Happy as parser).  
+[!] This is not a perfect language or interpreter. I just made this as term project of univ lecture.     
+[!] I'm stilling working on this project. So, this might be a not final version.    
 
-## in Programming Language Semantics and Implementeation Class (2021) 
+# Build and Run 
+```shell
+# first you need to download haskell compiler(ghc)  - https://www.haskell.org/ghc/ 
+# build 
+make 
+# run 
+Main.exe
+#try example code under /Example Folder
+```
 
-* /practice/lab* : in class Lab. to Learn How to use Haskell, Alex and Happy. 
+# Note 
+* `AST.hs` : AST component data type, Symbol table data type
+* `Enviroment.hs` : Eval & Apply working part
+* `main.hs` : REPL
+* `Tokens.x` : scanner, input file of Alex 
+* `Grammar.y` : parser, input file of Happy
 
-## reference 
-* Alex User Guide : https://www.haskell.org/alex/doc/html/index.html 
-* Happy User Guide : https://www.haskell.org/happy/doc/html/index.html 
+# Reference 
+* haskell ghc compiler : https://www.haskell.org/ghc/ 
+* Alex User Guide : https://www.haskell.org/alex/doc/html/index.html
+* Happy User Guide : https://www.haskell.org/happy/doc/html/index.html
+* How to compile lambda : https://matt.might.net/articles/closure-conversion/ 
