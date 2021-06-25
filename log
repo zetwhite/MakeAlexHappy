@@ -1,0 +1,2 @@
+ghc --make Main
+[2 of 3] Compiling Grammar          ( Grammar.hs, Grammar.o )
