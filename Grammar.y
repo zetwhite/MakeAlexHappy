@@ -58,6 +58,12 @@ Ident : id                  { Ident' $1 }
 Atom : Bool                 { AtomBool' $1 }
     | Number                { AtomInt' $1 }
     | String                { AtomStr' $1 }
+    | Lambda                { $1 }
+
+Lambda: lparen lambda Args SExp rparen      { Lambda' $3 $4 }
+Args : lparen IdList rparen                 { $2 }
+IdList : IdList Ident                       { $2:$1 }
+    | Ident                                 {[$1]}
 
 Bool : true                 { True }
     | false                 { False }
@@ -70,6 +76,7 @@ Expr : OpStmt               { $1 }
     | IOStmt                { $1 }
     | CondStmt              { $1 }
     | PredStmt              { $1 }
+    | ProcStmt             { $1 }
 
 OpStmt : lparen OpKeyword SExp SExp rparen      { Bi' $2 $3 $4 } 
 
@@ -92,7 +99,13 @@ PredStmt : lparen 'Null\?' SExp rparen          { Uni' Null' $3 }
     | lparen 'Number\?'SExp rparen              { Uni' Number' $3 }
     | lparen 'Eq\?' SExp SExp rparen            { Bi' Eq' $3 $4 }
 
-Defin : lparen define Ident SExp rparen            { Bind' $3 $4 }
+
+ProcStmt : lparen Lambda SExpList rparen        {Proc' $2 $3 }
+SExpList : SExpList SExp                        { $2:$1 }
+        | SExp                                  { [$1] }
+
+
+Defin : lparen define Ident SExp rparen         { Bind' $3 $4 }
 
 {
 parseError :: [Token] -> a 

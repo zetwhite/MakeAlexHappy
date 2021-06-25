@@ -3,6 +3,7 @@ import Data.Typeable
 import Grammar 
 import Tokens 
 import Envirnoment
+import AST 
 import System.IO
 import System.IO.Error
 
@@ -11,7 +12,7 @@ isError a = True
 
 myREPL:: Store -> IO()
 myREPL store = do
-  putStr "> "
+  putStr ">> "
   l <- tryIOError getLine
   case l of
     Left e ->

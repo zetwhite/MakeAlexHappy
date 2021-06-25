@@ -1,5 +1,20 @@
 module AST where 
 
+-- enviroment manager 
+data SymEntry = SymAtom Atom 
+    | SymStore Store 
+    | Empty
+
+type Store = Ident -> SymEntry
+newStore :: Store
+newStore id = Empty
+
+update :: Ident -> SymEntry -> Store -> Store 
+update id x store = store' 
+    where store' id'    | id' == id = x 
+                        | otherwise = store id'
+
+                        
 data Program = SExp' SExpression 
         | Def' Definition 
         deriving (Show)
@@ -7,11 +22,12 @@ data Program = SExp' SExpression
 data SExpression = Atom' Atom 
         | Id' Ident 
         | Expr' Expression 
-        deriving (Show)
+        deriving (Show, Eq)
 
 data Atom =  AtomBool' Bool 
         | AtomStr' String 
         | AtomInt' Int 
+        | Lambda' [Ident] SExpression
         | Void
         deriving (Show, Eq)
 
@@ -21,7 +37,8 @@ data Ident = Ident' String
 data Expression = Bi' BiOperator SExpression SExpression 
         | Uni' UniOperator SExpression
         | If' SExpression SExpression SExpression  
-        deriving (Show)
+        | Proc' Atom [SExpression]
+        deriving (Show, Eq)
 
 data BiOperator = Plus' 
         | Minus' 
@@ -30,7 +47,7 @@ data BiOperator = Plus'
         | Greater'
         | Lessthan'
         | Eq' 
-        deriving (Show)
+        deriving (Show, Eq)
 
 data UniOperator = Read'  
         | Write'
@@ -39,7 +56,7 @@ data UniOperator = Read'
         | Pair'
         | AtomC'
         | Number' 
-        deriving (Show)
+        deriving (Show, Eq)
 
 data Definition = Bind' Ident  SExpression 
         deriving (Show)
