@@ -1,50 +1,52 @@
 module AST where 
 
-data Program = Eval SExpression 
-        | Appli Definition 
+data Program = SExp' SExpression 
+        | Def' Definition 
         deriving (Show)
  
-data SExpression = Atom Atom 
-        | Expr Expression 
+data SExpression = Atom' Atom 
+        | Id' Ident 
+        | Expr' Expression 
         deriving (Show)
 
-data Atom =  AtomBool Bool 
-        | AtomStr String 
-        | AtomInt Int 
-        | AtomId Id
+data Atom =  AtomBool' Bool 
+        | AtomStr' String 
+        | AtomInt' Int 
+        deriving (Show, Eq)
+
+data Ident = Ident' String 
+        deriving (Show, Eq)
+
+data Expression = Bi' BiOperator SExpression SExpression 
+        | Uni' UniOperator SExpression
+        | If' SExpression SExpression SExpression  
         deriving (Show)
 
-data Id = Id String 
+data BiOperator = Plus' 
+        | Minus' 
+        | Multiply'
+        | Devide'
+        | Greater'
+        | Lessthan'
+        | Eq' 
         deriving (Show)
 
-data Expression = Bi BiOperator SExpression SExpression 
-        | Uni UniOperator SExpression
-        | If SExpression SExpression SExpression  
-        deriving (Show)
---        | Cond CondUnit 
---        | Lambda LambdaArgs SExp 
---        | Appli Id SExpression
-
--- data LambdaArgs = Atom LambdaArgs | Nil      
--- data CondUnit = Case Expression Expression CondUnit | Expression  
-
-data BiOperator = Plus 
-        | Minus 
-        | Multiply
-        | Devide
-        | Greater
-        | Lessthan
-        | Eq 
+data UniOperator = Read'  
+        | Write'
+        | Display' 
+        | Null'
+        | Pair'
+        | AtomC'
+        | Number' 
         deriving (Show)
 
-data UniOperator = Read  
-        | Write
-        | Display 
-        | Null
-        | Pair 
-        | AtomC
-        | Number 
+data Definition = Bind' Ident  SExpression 
         deriving (Show)
 
-data Definition = Def Id SExpression 
-        deriving (Show)
+{-
+runProgram :: Program -> Maybe Atom 
+runProgram (SExp' x) = runSExp x 
+runProgram (Def' x) = runDef x `seq` Nothing 
+
+runDef :: Definition -> 
+ -}

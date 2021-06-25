@@ -2,14 +2,15 @@ module Main where
 import Data.Typeable 
 import Grammar 
 import Tokens 
+import Envirnoment
 import System.IO
 import System.IO.Error
 
 isError :: a -> Bool 
 isError a = True 
 
-myREPL::IO()
-myREPL = do
+myREPL:: newStore -> IO()
+myREPL store = do
   putStr "> "
   l <- tryIOError getLine
   case l of
@@ -27,14 +28,14 @@ myREPL = do
           then 
             do
               putStrLn (show ast)
-              myREPL
+              myREPL store
           else 
-            myREPL
+            myREPL store
       else
-        myREPL
+        myREPL store
 
 
 main :: IO() 
 main = do 
   hSetBuffering stdout NoBuffering 
-  myREPL 
+  myREPL newStore 

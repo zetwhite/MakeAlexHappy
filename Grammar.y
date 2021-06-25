@@ -46,20 +46,18 @@ import AST
     '\'\(\)'   { T_EmptyL }
 %%
 
-Prog : SExp                 { Eval $1 }
-    | Defin                 { Appli $1 }
+Prog : SExp                 { SExp' $1 }
+    | Defin                 { Def' $1 }
 
-SExp : Expr                 { Expr $1 }
-    | Atom                  { Atom $1 }
+SExp : Expr                 { Expr' $1 }
+    | Ident                 { Id' $1 }
+    | Atom                  { Atom' $1 }
 
-Atom  : Id                  { AtomId $1 }
-    | Constant              { $1 }
+Ident : id                  { Ident' $1 }
 
-Id : id                     { Id $1 }
-
-Constant : Bool             { AtomBool $1 }
-    | Number                { AtomInt $1 }
-    | String                { AtomStr $1 }
+Atom : Bool                 { AtomBool' $1 }
+    | Number                { AtomInt' $1 }
+    | String                { AtomStr' $1 }
 
 Bool : true                 { True }
     | false                 { False }
@@ -73,28 +71,28 @@ Expr : OpStmt               { $1 }
     | CondStmt              { $1 }
     | PredStmt              { $1 }
 
-OpStmt : lparen OpKeyword SExp SExp rparen      { Bi $2 $3 $4 } 
+OpStmt : lparen OpKeyword SExp SExp rparen      { Bi' $2 $3 $4 } 
 
-OpKeyword : plus                                { Plus }
-    | minus                                     { Minus }
-    | multi                                     { Multiply } 
-    | divid                                     { Devide }
-    | gt                                        { Greater }
-    | lt                                        { Lessthan }
+OpKeyword : plus                                { Plus' }
+    | minus                                     { Minus' }
+    | multi                                     { Multiply' } 
+    | divid                                     { Devide' }
+    | gt                                        { Greater' }
+    | lt                                        { Lessthan' }
 
-IOStmt : lparen read SExp rparen                { Uni Read $3 }
-    | lparen write SExp rparen                  { Uni Write $3 }
-    | lparen display SExp rparen                { Uni Display $3 }
+IOStmt : lparen read SExp rparen                { Uni' Read' $3 }
+    | lparen write SExp rparen                  { Uni' Write' $3 }
+    | lparen display SExp rparen                { Uni' Display' $3 }
 
-CondStmt : lparen if SExp SExp SExp rparen      { If $3 $4 $5 }
+CondStmt : lparen if SExp SExp SExp rparen      { If' $3 $4 $5 }
 
-PredStmt : lparen 'Null\?' SExp rparen          { Uni Null $3 }
-    | lparen 'Pair\?' SExp rparen               { Uni Pair $3 }
-    | lparen 'Atom\?' SExp rparen               { Uni AtomC $3 }
-    | lparen 'Number\?'SExp rparen              { Uni Number $3 }
-    | lparen 'Eq\?' SExp SExp rparen            { Bi Eq $3 $4 }
+PredStmt : lparen 'Null\?' SExp rparen          { Uni' Null' $3 }
+    | lparen 'Pair\?' SExp rparen               { Uni' Pair' $3 }
+    | lparen 'Atom\?' SExp rparen               { Uni' AtomC' $3 }
+    | lparen 'Number\?'SExp rparen              { Uni' Number' $3 }
+    | lparen 'Eq\?' SExp SExp rparen            { Bi' Eq' $3 $4 }
 
-Defin : lparen define Id SExp rparen            { Def $3 $4 }
+Defin : lparen define Ident SExp rparen            { Bind' $3 $4 }
 
 {
 parseError :: [Token] -> a 
