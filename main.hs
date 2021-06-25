@@ -9,7 +9,7 @@ import System.IO.Error
 isError :: a -> Bool 
 isError a = True 
 
-myREPL:: newStore -> IO()
+myREPL:: Store -> IO()
 myREPL store = do
   putStr "> "
   l <- tryIOError getLine
@@ -27,7 +27,8 @@ myREPL store = do
           if isError ast 
           then 
             do
-              putStrLn (show ast)
+              -- putStrLn (show ast)
+              putStrLn (show (runProgram ast store))
               myREPL store
           else 
             myREPL store
