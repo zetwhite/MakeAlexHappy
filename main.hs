@@ -16,7 +16,7 @@ myREPL store = do
   case l of
     Left e ->
       if isEOFError e
-         then putStrLn "Bye!     "
+         then putStrLn "Bye!\n"
          else ioError e     
     Right s ->
       if s/="" 
@@ -28,8 +28,9 @@ myREPL store = do
           then 
             do
               -- putStrLn (show ast)
-              putStrLn (show (runProgram ast store))
-              myREPL store
+              let result = (runProgram ast store)
+              putStrLn (show $ getExpResult result)
+              myREPL $ getStore result
           else 
             myREPL store
       else

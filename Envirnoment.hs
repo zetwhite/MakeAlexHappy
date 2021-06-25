@@ -2,47 +2,76 @@ module Envirnoment where
 import Data.Maybe 
 import AST 
 
-extractInteger :: Atom -> Int 
-extractInteger (AtomInt' x) = x 
-extractInteger (AtomBool' True) = 1 
-extractInteger (AtomBool' False) = 0 
-extractInteger (AtomStr' _) = 0 --how to handle all this syntax error...? 
+-- returing Type 
+data Error = TypeError String 
+    | UndefinedIdError String 
+    | Error String 
+    deriving (Show)
 
-extractAtom :: Maybe Atom -> Atom 
-extractAtom (Just x) = x 
-extractAtom Nothing = AtomInt' 0
+data ExpResult = Good Atom 
+    | Bad Error
+
+instance Show ExpResult where 
+    show (Good x) = "[GOOD] " ++ show x
+    show (Bad x) = "[BAD] " ++ show x
+
+extractAtom :: ExpResult -> Atom
+extractAtom (Good a) = a
+
+data LineResult = LineResult { getStore :: Store  
+    , getExpResult :: ExpResult 
+}
 
 type Store = Ident -> Atom 
 newStore :: Store
-newStore id = AtomInt' 0 
+newStore id = Void
 
 update :: Ident -> Atom -> Store -> Store 
 update id value store = store' 
     where store' id'    | id' == id = value 
                         | otherwise = store id'
 
-runProgram :: Program-> Store -> Maybe Atom 
-runProgram (SExp' x) store = Just (runSExp x store)
-runProgram (Def' x) store = runDef x store `seq` Nothing 
+-- go! go! go! give me a result 
+runProgram :: Program-> Store -> LineResult 
+runProgram (SExp' x) store = LineResult store (runSExp x store) 
+runProgram (Def' x) store = LineResult store' $ Good Void
+    where store' = runDef x store
 
-runDef :: Definition -> Store -> Maybe Atom
-runDef (Bind' xi xexp) store = update xi xatom store `seq` Nothing
-    where xatom = runSExp xexp store 
+runDef :: Definition -> Store -> Store 
+runDef (Bind' xid xexpr) store = update xid xatom store
+    where xatom = extractAtom (runSExp xexpr store) 
 
-runSExp :: SExpression -> Store -> Atom 
-runSExp (Atom' xatom) store = xatom 
-runSExp (Id' xident) store =  store xident
+
+runSExp :: SExpression -> Store -> ExpResult 
+runSExp (Atom' xatom) store = Good $ xatom 
+runSExp (Id' xident) store = Good $ store xident
 runSExp (Expr' xexpr) store = runExp xexpr store
 
-runExp :: Expression -> Store -> Atom 
-runExp (Bi' xop xexp1 xexp2) store = runBOp xop (runSExp xexp1 store) (runSExp xexp2 store)
-runExp a store = AtomInt' 200
--- runExp (Uni' xop xexp1) store = 
--- runExp (If' xcond xtrue xfalse) store
 
-runBOp :: BiOperator -> Atom -> Atom -> Atom 
-runBOp Plus' val1 val2 = AtomInt' ((extractInteger val1) + (extractInteger val2)) 
-runBOp Minus' val1 val2 = AtomInt' ((extractInteger val1) - (extractInteger val2))
-runBOP a b c = AtomInt' 100 
---runBOp ()
-    
+runExp :: Expression -> Store -> ExpResult 
+runExp (Bi' op exp1 exp2) store = runBOp op res1 res2 
+    where   res1 = extractAtom (runSExp exp1 store) 
+            res2 = extractAtom (runSExp exp2 store)
+runExp (Uni' op exp) store = runUOp op res 
+    where res = extractAtom (runSExp exp store)
+runExp (If' cond exp1 exp2) store 
+    | condRes == AtomBool' True = runSExp exp1 store
+    | otherwise = runSExp exp2 store
+    where condRes = extractAtom (runSExp cond store )
+
+runBOp :: BiOperator -> Atom -> Atom -> ExpResult 
+runBOp Plus' (AtomInt' val1) (AtomInt' val2) = Good $ AtomInt' ( val1 + val2 )
+runBOp Plus' _ _ = Bad $ TypeError "(+) operand is not numeric"
+runBOp Minus' (AtomInt' val1) (AtomInt' val2) = Good $ AtomInt' ( val1 - val2 )
+runBOp Devide' (AtomInt' val1) (AtomInt' val2) = Good $ AtomInt' ( val1 `div` val2 )
+runBOp Multiply' (AtomInt' val1) (AtomInt' val2) = Good $ AtomInt' ( val1 * val2 )
+runBOp Greater' (AtomInt' val1) (AtomInt' val2) = Good $ AtomBool' ( val1 > val2 )
+runBOp Lessthan' (AtomInt' val1) (AtomInt' val2) = Good $ AtomBool' (val1 < val2 )
+runBOp Eq' x y = Good $ AtomBool' (x == y)
+runBOp _ _ _ = Bad $ Error "Error in Binary Operator"
+
+
+runUOp :: UniOperator -> Atom -> ExpResult 
+runUOp Number' (AtomInt' _ ) = Good $ AtomBool' True 
+runUOp Number' _ = Good $ AtomBool' False 
+-- how to handle display, write, read -> there is restriction using IO () 

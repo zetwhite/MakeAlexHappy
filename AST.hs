@@ -12,6 +12,7 @@ data SExpression = Atom' Atom
 data Atom =  AtomBool' Bool 
         | AtomStr' String 
         | AtomInt' Int 
+        | Void
         deriving (Show, Eq)
 
 data Ident = Ident' String 
@@ -34,7 +35,7 @@ data BiOperator = Plus'
 data UniOperator = Read'  
         | Write'
         | Display' 
-        | Null'
+        | Null' 
         | Pair'
         | AtomC'
         | Number' 
@@ -42,11 +43,3 @@ data UniOperator = Read'
 
 data Definition = Bind' Ident  SExpression 
         deriving (Show)
-
-{-
-runProgram :: Program -> Maybe Atom 
-runProgram (SExp' x) = runSExp x 
-runProgram (Def' x) = runDef x `seq` Nothing 
-
-runDef :: Definition -> 
- -}
